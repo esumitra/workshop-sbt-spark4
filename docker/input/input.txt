@@ -1,0 +1,3 @@
+hello spark spark
+hello docker compose
+Spark, Spark!
