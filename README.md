@@ -83,3 +83,42 @@ docker compose up --build
 docker compose down
 ```
 
+## Run on AWS EMR
+1) Build the jar:
+```bashsbt assembly
+# produces: target/scala-2.13/workshop-assembly.jar
+```
+2) Upload the jar to S3:
+```bash
+aws s3 cp target/scala-2.13/workshop-assembly.jar s3://your-bucket/path/workshop-assembly.jar
+```
+3) Create an EMR serverless cluster and submit the job:
+```bash
+
+aws emr-serverless create-application --type spark \
+  --release-label emr-spark-8.0-preview \
+  --region us-east-1 --name spark4-preview-workshop
+
+aws emr-serverless start-job-run \
+    --application-id application-id \
+    --execution-role-arn job-role-arn \
+    --job-driver '{
+        "sparkSubmit": {
+            "entryPoint": "/usr/lib/spark/examples/jars/spark-examples.jar",
+            "entryPointArguments": ["s3://es-emr-data/emr-serverless-spark/input/0001", "s3://es-emr-data/emr-serverless-spark/output/$(date +%Y%m%d_%H%M%S)"],
+            "sparkSubmitParameters": "--class org.apache.spark.examples.SparkPi --conf spark.executor.cores=4 --conf spark.executor.memory=20g --conf spark.driver.cores=4 --conf spark.driver.memory=8g --conf spark.executor.instances=1"
+        }
+    }'
+```
+
+4) Monitor the cluster and job status in the AWS Management Console under EMR.
+
+## Notes
+- The Spark version in the Docker image (4.0.2) is newer than the EMR release (6.3.0 with Spark 3.2.1). Some features may differ between versions, so adjust the code accordingly if you encounter compatibility issues.
+- Ensure that your AWS CLI is configured with the appropriate permissions to create EMR clusters and access S3 buckets.
+- The input and output paths in the EMR step should be adjusted to point to the correct S3 locations if you want to read/write from S3 instead of HDFS.
+- For local testing, you can also run the Spark job directly using `spark-submit` without Docker, but using Docker ensures consistency with the EMR environment.
+
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details
+
