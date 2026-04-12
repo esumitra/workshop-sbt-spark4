@@ -128,5 +128,6 @@ aws emr-serverless start-job-run \
 
 ## License
 Ed Sumitra, 2026
+
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details
 
