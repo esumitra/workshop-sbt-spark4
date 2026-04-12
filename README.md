@@ -58,9 +58,9 @@ import spark.implicits._
 4) To start the cluster without submitting the job, and then submit the job manually:
 ```bash
 docker compose up --build -d
-docker exec -it workshop-wordcount-submit /bin/bash
+docker exec -it spark-master /bin/bash
 # Inside the container, run:
-/opt/spark/bin/spark-submit \
+$SPARK_HOME/bin/spark-submit \
   --master spark://spark-master:7077 \
   --deploy-mode client \
   --conf "spark.sql.sources.partitionOverwriteMode=dynamic" \
@@ -68,7 +68,14 @@ docker exec -it workshop-wordcount-submit /bin/bash
   file:///opt/spark/work-dir/input/input.txt \
   file:///opt/spark/work-dir/output/$(date +%Y%m%d_%HM%S)
 ```
+To test:
 
+```bash
+docker exec -it spark-master /bin/bash
+$SPARK_HOME/bin/spark-submit   --master spark://spark-master:7077  ${SPARK_HOME}/examples/src/main/python/pi.py  1000
+```
+
+Open Spark UI at http://localhost:9080 to monitor the job.
 5) To run the cluster and submit the job, and then view the Spark UI:
 ```bash
 docker compose up --build
@@ -120,5 +127,6 @@ aws emr-serverless start-job-run \
 - For local testing, you can also run the Spark job directly using `spark-submit` without Docker, but using Docker ensures consistency with the EMR environment.
 
 ## License
+Ed Sumitra, 2026
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details
 

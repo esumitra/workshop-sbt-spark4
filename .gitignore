@@ -7,3 +7,5 @@ target/
 project/target/
 project/project/
 docker/output/
+
+spark/logs/
