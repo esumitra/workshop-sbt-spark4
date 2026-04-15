@@ -1,0 +1,25 @@
+student_id,subject,score
+S001,Calculus,92.5
+S001,English Lit,88.0
+S001,Physics,95.0
+S002,Calculus,75.0
+S002,English Lit,62.5
+S002,History,81.0
+S003,Calculus,55.0
+S003,Art,70.0
+S003,English Lit,40.0
+S004,Calculus,98.0
+S004,Chemistry,85.0
+S004,Physics,91.0
+S005,Calculus,65.0
+S005,English Lit,55.0
+S005,History,70.0
+S006,Art,80.0
+S006,English Lit,85.0
+S006,Math,88.0
+S007,Calculus,79.0
+S007,English Lit,65.0
+S007,Physics,72.0
+S008,Calculus,90.0
+S008,Chemistry,95.0
+S008,History,88.0
